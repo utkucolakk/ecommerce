@@ -18,7 +18,9 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String email;
+
     @Column(name = "first_name")
     private String firstName;
 
