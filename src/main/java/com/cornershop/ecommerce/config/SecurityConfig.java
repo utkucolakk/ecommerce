@@ -1,7 +1,7 @@
 package com.cornershop.ecommerce.config;
 
 import com.cornershop.ecommerce.filter.JwtAuthFilter;
-import com.cornershop.ecommerce.service.UserInfoUserDetailService;
+import com.cornershop.ecommerce.service.UserInfoUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,13 +26,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
+
+    private static final String[] CUSTOMER_WHITE_LIST = {
+            "/customer/register",
+            "/customer/login"
+    };
+
     @Autowired
     private JwtAuthFilter jwtAuthFilter;
 
 
     @Bean
     UserDetailsService userDetailsService() {
-        return new UserInfoUserDetailService();
+        return new UserInfoUserDetailsService();
     }
 
     @Bean
@@ -41,7 +52,7 @@ public class SecurityConfig {
     http.cors(AbstractHttpConfigurer::disable);
 
     return http.authorizeHttpRequests(a -> a
-            .requestMatchers("/customer/register").permitAll()
+            .requestMatchers(CUSTOMER_WHITE_LIST).permitAll()
             .requestMatchers(AUTH_WHITE_LIST).permitAll()
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
             .anyRequest().authenticated())
@@ -51,11 +62,7 @@ public class SecurityConfig {
 
     }
 
-    private static final String[] AUTH_WHITE_LIST = {
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html"
-    };
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
