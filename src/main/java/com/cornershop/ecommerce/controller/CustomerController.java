@@ -29,9 +29,4 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.login(authDto), HttpStatus.OK);
     }
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> test() {
-        return new ResponseEntity<>("hello world!", HttpStatus.OK);
-    }
 }

@@ -26,7 +26,7 @@ public class ProductService {
 
     private static final String UPLOAD_DIR = "uploads";
 
-    public Product createProdcut(MultipartFile file, Product product) {
+    public Product createProduct(MultipartFile file, Product product) {
         if (Objects.nonNull(file)) {
             String imagePath = saveFile(file, product.getName());
             product.setImage(imagePath);
@@ -39,7 +39,7 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found id : " + id));
+        return productRepository.getActiveProductById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found id : " + id));
     }
 
     private String saveFile(MultipartFile file, String productName) {
@@ -57,8 +57,8 @@ public class ProductService {
         return filePath.toString();
     }
 
-    public boolean activeOrDeActiveProduct(Long id, boolean isActive) {
-        return productRepository.updateProductActive(isActive, id);
+    public void activeOrDeActiveProduct(Long id, boolean isActive) {
+        productRepository.updateProductActive(isActive, id);
 
     }
 
@@ -67,6 +67,6 @@ public class ProductService {
     }
 
     public List<Product> getAllProductList() {
-       return productRepository.findAll();
+       return productRepository.getAllActiveProductList();
     }
 }
