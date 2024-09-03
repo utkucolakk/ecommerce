@@ -27,6 +27,8 @@ public class Order {
 
     private Double totalPrice;
 
+    private Double price;
+
     private LocalDate purchaseDate;
 
 

@@ -44,14 +44,15 @@ public class OrderService {
 
         orderRequest.getOrderList().forEach(orderRequestInfo -> {
             Order order = new Order();
-            order.setCustomerId(orderRequest.getCustomerId());
             Product product = productRepository.getActiveProductById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
             Double totalPrice = orderRequestInfo.getQuantity() * product.getPrice();
             order.setTotalPrice(totalPrice);
+
             order.setQuantity(orderRequestInfo.getQuantity());
             order.setProductId(orderRequestInfo.getProductId());
             order.setCustomerId(orderRequest.getCustomerId());
             order.setPurchaseDate(LocalDate.now());
+            order.setPrice(product.getPrice());
             if (product.getUnitsInStock() - orderRequestInfo.getQuantity() == 0) {
                 product.setActive(false);
             }
