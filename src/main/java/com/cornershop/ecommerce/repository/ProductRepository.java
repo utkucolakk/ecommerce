@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query("SELECT p FROM Product p WHERE p.categoryId = :categoryId")
+    @Query("SELECT p FROM Product p WHERE p.categoryId = :categoryId AND p.active = true")
     List<Product> findProductListByCategoryId(@Param("categoryId") Long categoryId);
 
     @Modifying

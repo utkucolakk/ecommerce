@@ -43,6 +43,7 @@ public class ProductService {
     }
 
     private String saveFile(MultipartFile file, String productName) {
+        productName = productName.replaceAll("\\s", "");
         String fileName = productName + "." + StringUtils.getFilenameExtension(file.getOriginalFilename());
         Path uploadPath = Path.of(UPLOAD_DIR);
         Path filePath;
