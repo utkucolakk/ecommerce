@@ -41,7 +41,6 @@ public class OrderService {
     public boolean doOrder(OrderRequest orderRequest) {
         log.info("Order request time {} customer :{}", LocalDateTime.now(), orderRequest.getCustomerId());
         productUnitStockCheck(orderRequest.getOrderList());
-
         orderRequest.getOrderList().forEach(orderRequestInfo -> {
             Order order = new Order();
             Product product = productRepository.getActiveProductById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
@@ -52,7 +51,7 @@ public class OrderService {
             order.setProductId(orderRequestInfo.getProductId());
             order.setCustomerId(orderRequest.getCustomerId());
             order.setPurchaseDate(LocalDate.now());
-            order.setPrice(product.getPrice());
+            order.setPrice(product.getPrice() );
             if (product.getUnitsInStock() - orderRequestInfo.getQuantity() == 0) {
                 product.setActive(false);
             }
