@@ -20,12 +20,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @PostMapping(name = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<Product> createProduct(@RequestPart("file")MultipartFile file,
-                                                 @ModelAttribute Product product) {
+    public ResponseEntity<Product> createProduct(@RequestPart("file") MultipartFile file,
+                                                 @RequestPart("product") Product product) {
 
-        return new ResponseEntity<>(productService.createProduct(file,  product), HttpStatus.CREATED);
+        return new ResponseEntity<>(productService.createProduct(file, product), HttpStatus.CREATED);
+
     }
 
     @GetMapping("/category/{categoryId}")
@@ -40,7 +41,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProduct(id), HttpStatus.OK);
     }
 
-    @PutMapping(name = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Product> updateProduct(@RequestPart(value = "file", required = false)MultipartFile file,
                                                  @ModelAttribute Product product) {
