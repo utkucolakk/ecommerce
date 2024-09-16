@@ -1,6 +1,5 @@
 package com.cornershop.ecommerce.model;
 
-import com.cornershop.ecommerce.enums.CategoryEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,6 +14,5 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private CategoryEnum categoryEnum;
+    private String name;
 }

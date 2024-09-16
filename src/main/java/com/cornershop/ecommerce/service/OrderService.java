@@ -8,7 +8,6 @@ import com.cornershop.ecommerce.model.Product;
 import com.cornershop.ecommerce.repository.OrderRepository;
 import com.cornershop.ecommerce.repository.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,7 +42,7 @@ public class OrderService {
         productUnitStockCheck(orderRequest.getOrderList());
         orderRequest.getOrderList().forEach(orderRequestInfo -> {
             Order order = new Order();
-            Product product = productRepository.getActiveProductById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
+            Product product = productRepository.getProductById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
             Double totalPrice = orderRequestInfo.getQuantity() * product.getPrice();
             order.setTotalPrice(totalPrice);
 

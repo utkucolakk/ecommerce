@@ -1,11 +1,9 @@
 package com.cornershop.ecommerce.service;
 
-import ch.qos.logback.core.util.StringUtil;
 import com.cornershop.ecommerce.exception.ProductNotFoundException;
 import com.cornershop.ecommerce.model.Product;
 import com.cornershop.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +28,11 @@ public class ProductService {
         if (Objects.nonNull(file)) {
             String imagePath = saveFile(file, product.getName());
             product.setImage(imagePath);
+        }else {
+           Product existProduct = productRepository.findById(product.getId()).orElseThrow(() -> new ProductNotFoundException("product not found id :" + product.getId()));
+           product.setImage(existProduct.getImage());
         }
+
         return productRepository.save(product);
     }
 
@@ -39,7 +41,7 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.getActiveProductById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found id : " + id));
+        return productRepository.getProductById(id).orElseThrow(() -> new ProductNotFoundException("Product Not Found id : " + id));
     }
 
     private String saveFile(MultipartFile file, String productName) {
@@ -68,6 +70,6 @@ public class ProductService {
     }
 
     public List<Product> getAllProductList() {
-       return productRepository.getAllActiveProductList();
+       return productRepository.getAllProductList();
     }
 }

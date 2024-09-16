@@ -22,9 +22,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("UPDATE Product p SET p.active = :active WHERE p.id = :id")
     void updateProductActive(@Param("active") Boolean isActive, @Param("id") Long id);
 
-    @Query("SELECT p FROM Product p WHERE p.active = true")
-    List<Product> getAllActiveProductList();
+    @Query("SELECT p FROM Product p")
+    List<Product> getAllProductList();
 
-    @Query("SELECT p FROM Product p WHERE p.active = true AND p.id =:id")
-    Optional<Product> getActiveProductById(@Param("id") Long id);
+    @Query("SELECT p FROM Product p WHERE p.id =:id")
+    Optional<Product> getProductById(@Param("id") Long id);
 }
