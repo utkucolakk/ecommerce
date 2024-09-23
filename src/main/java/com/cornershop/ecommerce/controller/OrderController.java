@@ -21,4 +21,11 @@ public class OrderController {
     public ResponseEntity<Boolean> doOrder(@RequestBody OrderRequest orderRequest) {
         return new ResponseEntity<>(orderService.doOrder(orderRequest), HttpStatus.OK);
     }
+
+    @GetMapping("/test")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<Void> test () {
+        orderService.sendMail();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

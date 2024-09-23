@@ -66,6 +66,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
+        //TODO: delete image in path as well
         productRepository.deleteById(id);
     }
 
