@@ -25,7 +25,7 @@ public class OrderController {
     @GetMapping("/test")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> test () {
-        orderService.sendMail();
+        orderService.sendMail("", "", 0d);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
