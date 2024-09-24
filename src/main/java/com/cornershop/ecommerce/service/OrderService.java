@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,6 +45,8 @@ public class OrderService {
 
     @Value("${spring.mail.username}")
     private String emailFrom;
+
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private void productUnitStockCheck(List<OrderProductInfo> orderProductInfoList) {
         orderProductInfoList.forEach(productInfo -> {
@@ -71,7 +74,7 @@ public class OrderService {
             order.setQuantity(orderRequestInfo.getQuantity());
             order.setProductId(orderRequestInfo.getProductId());
             order.setCustomerId(orderRequest.getCustomerId());
-            order.setPurchaseDate(LocalDate.now());
+            order.setPurchaseDate(LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter));
             order.setPrice(product.getPrice() );
             if (product.getUnitsInStock() - orderRequestInfo.getQuantity() == 0) {
                 product.setActive(false);
