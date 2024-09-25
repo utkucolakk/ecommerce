@@ -101,4 +101,6 @@ public class CategoryServiceTest {
         verify(productRepository, times(1)).getProductCountOfCategoryId(categoryId);
         verify(categoryRepository, times(0)).deleteById(categoryId);
     }
+
+    //TODO: CategoryService için kalan methodların testini yaz.
 }
