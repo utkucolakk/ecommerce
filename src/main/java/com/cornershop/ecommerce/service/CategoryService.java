@@ -33,7 +33,7 @@ public class CategoryService {
     public void deleteCategory(Long id) {
          Long productCountOfCategory = productRepository.getProductCountOfCategoryId(id);
         if (productCountOfCategory > 0 ) {
-            throw new CategoryDeleteException("you can not delete this category because category has " + productCountOfCategory + "products");
+            throw new CategoryDeleteException("you can not delete this category because category has " + productCountOfCategory + " products");
         }
         categoryRepository.deleteById(id);
     }
