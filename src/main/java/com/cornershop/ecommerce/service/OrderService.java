@@ -66,7 +66,7 @@ public class OrderService {
         List<Double> orderTotalCostList = new ArrayList<>();
         orderRequest.getOrderList().forEach(orderRequestInfo -> {
             Order order = new Order();
-            Product product = productRepository.getProductById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
+            Product product = productRepository.findById(orderRequestInfo.getProductId()).orElseThrow(() -> new ProductNotFoundException("product not found id : " + orderRequestInfo.getProductId()));
             Double totalPrice = orderRequestInfo.getQuantity() * product.getPrice();
             orderTotalCostList.add(totalPrice);
             order.setTotalPrice(totalPrice);
@@ -75,6 +75,7 @@ public class OrderService {
             order.setProductId(orderRequestInfo.getProductId());
             order.setCustomerId(orderRequest.getCustomerId());
             order.setPurchaseDate(LocalDateTime.parse(formatter.format(LocalDateTime.now()), formatter));
+
             order.setPrice(product.getPrice() );
             if (product.getUnitsInStock() - orderRequestInfo.getQuantity() == 0) {
                 product.setActive(false);
